@@ -3,8 +3,8 @@
 Run from the backend directory:  python -m scripts.seed
 Idempotent: documents use stable ids and are overwritten on each run.
 
-Prices are integer minor units of the Tunisian dinar (1 DT = 100). Product
-images are local assets under /images/ (real Le Bon Goût photos).
+Prices are integer minor units of the Tunisian dinar (1 DT = 100). Every product
+uses a real Le Bon Goût photo of that exact dish (assets under /images/).
 """
 from __future__ import annotations
 
@@ -17,6 +17,7 @@ NOW = datetime.now(UTC)
 CATEGORIES = [
     {"id": "pizza", "name": "Pizza (feu de bois)", "sort_order": 10, "is_active": True},
     {"id": "chapati", "name": "Chapati & Malfouf", "sort_order": 20, "is_active": True},
+    {"id": "entrees", "name": "Entrées & Salades", "sort_order": 25, "is_active": True},
     {"id": "plats", "name": "Plats & Grillades", "sort_order": 30, "is_active": True},
     {"id": "gratins", "name": "Gratins & Pâtes", "sort_order": 40, "is_active": True},
     {"id": "drinks", "name": "Boissons", "sort_order": 50, "is_active": True},
@@ -34,6 +35,7 @@ IMG = {
     "chapati_viande": "/images/lebongout-chapati-viande.jpg",
     "chapati_fromage": "/images/lebongout-chapati-fromage.jpg",
     "malfouf": "/images/lebongout-malfouf.jpg",
+    "entree": "/images/lebongout-entree.jpg",
     "poulet": "/images/lebongout-poulet.jpg",
     "escalope": "/images/lebongout-escalope.jpg",
     "poisson": "/images/lebongout-poisson.jpg",
@@ -104,11 +106,17 @@ PRODUCTS = [
     _p("prod_chapati_viande", "Chapati Viande",
        "Chapati gratiné, viande hachée, fromage et crudités.", "chapati", "chapati_viande", 800, 23),
 
+    # ── Entrées & Salades ─────────────────────────────────────────
+    _p("prod_assiette_entree", "Assiette d'Entrée",
+       "Salade fraîche, sauces maison et olives.", "entrees", "entree", 500, 25),
+    _p("prod_salade_bongout", "Salade Bon Goût",
+       "Salade composée généreuse, sauces au choix.", "entrees", "entree", 800, 26),
+
     # ── Plats & Grillades ─────────────────────────────────────────
     _p("prod_quart_poulet", "1/4 Poulet Grillé",
        "Quart de poulet grillé, frites et salade.", "plats", "poulet", 1200, 30),
-    _p("prod_riz_poulet", "Riz au Poulet",
-       "Riz parfumé sauté au poulet et légumes.", "plats", "riz", 1200, 31),
+    _p("prod_riz_saute", "Riz Sauté",
+       "Riz parfumé sauté à la viande et aux légumes.", "plats", "riz", 1200, 31),
     _p("prod_escalope_panee", "Escalope Panée",
        "Escalope panée croustillante, frites, pâtes et salade.", "plats", "escalope", 1300, 32),
     _p("prod_escalope_grillee", "Escalope Grillée",
@@ -125,15 +133,11 @@ PRODUCTS = [
     # ── Gratins & Pâtes ───────────────────────────────────────────
     _p("prod_gratin_pates", "Gratin de Pâtes",
        "Pâtes gratinées au four, sauce crémeuse et fromage fondu.", "gratins", "gratin", 1100, 40),
-    _p("prod_lasagne", "Lasagne Bolognaise",
-       "Lasagnes à la bolognaise, béchamel et fromage gratiné.", "gratins", "gratin", 1300, 41),
+    _p("prod_gratin_poulet", "Gratin de Poulet",
+       "Gratin crémeux au poulet, béchamel et fromage gratiné.", "gratins", "gratin", 1300, 41),
 
     # ── Boissons ──────────────────────────────────────────────────
-    _p("prod_eau", "Eau minérale 50cl", "Bouteille d'eau minérale.", "drinks", "boga", 150, 50),
-    _p("prod_cafe", "Café Express", "Café express.", "drinks", "boga", 200, 51),
-    _p("prod_soda", "Soda 33cl", "Canette bien fraîche.", "drinks", "boga", 250, 52),
-    _p("prod_boga", "Boga Cidre 33cl", "La cidre tunisienne, bien fraîche.", "drinks", "boga", 250, 53),
-    _p("prod_jus", "Jus d'orange frais", "Orange pressée minute.", "drinks", "boga", 500, 54),
+    _p("prod_boga", "Boga Cidre 33cl", "La cidre tunisienne, bien fraîche.", "drinks", "boga", 250, 50),
 ]
 
 
