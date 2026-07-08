@@ -4,7 +4,7 @@ Run from the backend directory:  python -m scripts.seed
 Idempotent: documents use stable ids and are overwritten on each run.
 
 Prices are integer minor units of the Tunisian dinar (1 DT = 100). Product
-images are local assets under /images/.
+images are local assets under /images/ (real Le Bon Goût photos).
 """
 from __future__ import annotations
 
@@ -16,20 +16,32 @@ NOW = datetime.now(UTC)
 
 CATEGORIES = [
     {"id": "pizza", "name": "Pizza (feu de bois)", "sort_order": 10, "is_active": True},
-    {"id": "pasta", "name": "Pâtes & Risotto", "sort_order": 20, "is_active": True},
+    {"id": "chapati", "name": "Chapati & Malfouf", "sort_order": 20, "is_active": True},
     {"id": "plats", "name": "Plats & Grillades", "sort_order": 30, "is_active": True},
-    {"id": "entrees", "name": "Entrées & Salades", "sort_order": 40, "is_active": True},
-    {"id": "desserts", "name": "Desserts", "sort_order": 50, "is_active": True},
-    {"id": "drinks", "name": "Boissons", "sort_order": 60, "is_active": True},
+    {"id": "gratins", "name": "Gratins & Pâtes", "sort_order": 40, "is_active": True},
+    {"id": "drinks", "name": "Boissons", "sort_order": 50, "is_active": True},
 ]
 
+# Each key maps to a real Le Bon Goût photo of that exact dish.
 IMG = {
-    "pizza": "/images/lebongout-pizza.jpg",
-    "escalope": "/images/lebongout-escalope.jpg",
+    "pizza_margherita": "/images/lebongout-pizza-margherita.jpg",
+    "pizza_vege": "/images/lebongout-pizza-vege.jpg",
+    "pizza_thon": "/images/lebongout-pizza-thon.jpg",
+    "pizza_4fromages": "/images/lebongout-pizza-4fromages.jpg",
+    "pizza_poulet": "/images/lebongout-pizza-poulet.jpg",
+    "pizza_bongout": "/images/lebongout-pizza-bongout.jpg",
+    "chapati_poulet": "/images/lebongout-chapati-poulet.jpg",
+    "chapati_viande": "/images/lebongout-chapati-viande.jpg",
+    "chapati_fromage": "/images/lebongout-chapati-fromage.jpg",
+    "malfouf": "/images/lebongout-malfouf.jpg",
     "poulet": "/images/lebongout-poulet.jpg",
+    "escalope": "/images/lebongout-escalope.jpg",
     "poisson": "/images/lebongout-poisson.jpg",
+    "poisson_pane": "/images/lebongout-poisson-pane.jpg",
+    "grillade": "/images/lebongout-grillade.jpg",
     "paella": "/images/lebongout-paella.jpg",
-    "plat": "/images/lebongout-plat.jpg",
+    "riz": "/images/lebongout-riz.jpg",
+    "gratin": "/images/lebongout-gratin.jpg",
     "boga": "/images/lebongout-boga.png",
 }
 
@@ -70,67 +82,58 @@ def _p(pid, name, description, category, image_key, price, sort_order, extras=No
 PRODUCTS = [
     # ── Pizza (feu de bois) ───────────────────────────────────────
     _p("prod_pizza_margherita", "Margherita",
-       "Sauce tomate, mozzarella et origan, cuite au feu de bois.", "pizza", "pizza", 1000, 1, PIZZA_EXTRAS),
+       "Sauce tomate, mozzarella et origan, cuite au feu de bois.", "pizza", "pizza_margherita", 1000, 1, PIZZA_EXTRAS),
     _p("prod_pizza_vegetarienne", "Végétarienne",
-       "Légumes de saison, champignons, poivrons et mozzarella.", "pizza", "pizza", 1200, 2, PIZZA_EXTRAS),
+       "Poivrons, oignons, champignons, courgette et mozzarella.", "pizza", "pizza_vege", 1200, 2, PIZZA_EXTRAS),
     _p("prod_pizza_thon", "Thon",
-       "Thon, oignons, olives, câpres et mozzarella.", "pizza", "pizza", 1400, 3, PIZZA_EXTRAS),
+       "Thon, olives, oignons et mozzarella.", "pizza", "pizza_thon", 1400, 3, PIZZA_EXTRAS),
     _p("prod_pizza_4fromages", "4 Fromages",
-       "Mozzarella, gouda, gorgonzola et parmesan.", "pizza", "pizza", 1400, 4, PIZZA_EXTRAS),
+       "Mozzarella, gouda, gorgonzola et parmesan.", "pizza", "pizza_4fromages", 1400, 4, PIZZA_EXTRAS),
+    _p("prod_pizza_poulet", "Pizza Poulet",
+       "Poulet mariné, oignons rouges, mozzarella et sauce barbecue.", "pizza", "pizza_poulet", 1400, 5, PIZZA_EXTRAS),
     _p("prod_pizza_bongout", "Pizza Bon Goût",
-       "La spéciale maison : viande, poulet, olives, œuf et fromage.", "pizza", "pizza", 1600, 5, PIZZA_EXTRAS),
-    _p("prod_pizza_fruits_mer", "Fruits de Mer",
-       "Fruits de mer, ail, persil et mozzarella.", "pizza", "pizza", 1800, 6, PIZZA_EXTRAS),
+       "La spéciale maison : jambon de dinde, champignons, fromage et olives.", "pizza", "pizza_bongout", 1600, 6, PIZZA_EXTRAS),
 
-    # ── Pâtes & Risotto ───────────────────────────────────────────
-    _p("prod_pates_arrabiata", "Penne Arrabiata",
-       "Sauce tomate épicée, ail et persil.", "pasta", "plat", 1100, 20),
-    _p("prod_pates_bolognaise", "Penne Bolognaise",
-       "Sauce bolognaise maison et parmesan.", "pasta", "plat", 1200, 21),
-    _p("prod_pates_fruits_mer", "Pâtes Fruits de Mer",
-       "Pâtes aux fruits de mer, sauce tomate parfumée.", "pasta", "paella", 1600, 22),
-    _p("prod_risotto_fruits_mer", "Risotto Fruits de Mer",
-       "Risotto crémeux aux fruits de mer.", "pasta", "paella", 1800, 23),
+    # ── Chapati & Malfouf ─────────────────────────────────────────
+    _p("prod_chapati_fromage", "Chapati Fromage",
+       "Chapati gratiné au fromage, crudités et sauce, servi avec frites.", "chapati", "chapati_fromage", 650, 20),
+    _p("prod_chapati_poulet", "Chapati Poulet",
+       "Chapati gratiné, poulet, fromage, crudités et sauce.", "chapati", "chapati_poulet", 700, 21),
+    _p("prod_malfouf", "Malfouf Grillé",
+       "Pain malfouf grillé, garniture au choix, crudités et sauce.", "chapati", "malfouf", 700, 22),
+    _p("prod_chapati_viande", "Chapati Viande",
+       "Chapati gratiné, viande hachée, fromage et crudités.", "chapati", "chapati_viande", 800, 23),
 
     # ── Plats & Grillades ─────────────────────────────────────────
     _p("prod_quart_poulet", "1/4 Poulet Grillé",
        "Quart de poulet grillé, frites et salade.", "plats", "poulet", 1200, 30),
+    _p("prod_riz_poulet", "Riz au Poulet",
+       "Riz parfumé sauté au poulet et légumes.", "plats", "riz", 1200, 31),
     _p("prod_escalope_panee", "Escalope Panée",
-       "Escalope panée croustillante, frites, pâtes et salade.", "plats", "escalope", 1300, 31),
+       "Escalope panée croustillante, frites, pâtes et salade.", "plats", "escalope", 1300, 32),
     _p("prod_escalope_grillee", "Escalope Grillée",
-       "Escalope de poulet grillée, frites et salade.", "plats", "poulet", 1300, 32),
-    _p("prod_emince_poulet", "Émincé de Poulet",
-       "Émincé de poulet sauté, riz ou frites et salade.", "plats", "poulet", 1400, 33),
-    _p("prod_escalope_champignons", "Escalope aux Champignons",
-       "Escalope, sauce crémeuse aux champignons, frites et salade.", "plats", "escalope", 1500, 34),
+       "Escalope de poulet grillée, riz ou frites et salade.", "plats", "poulet", 1300, 33),
+    _p("prod_poisson_pane", "Filet de Poisson Pané",
+       "Filet de poisson pané, riz, légumes grillés et salade.", "plats", "poisson_pane", 1500, 34),
     _p("prod_poisson_grille", "Poisson Grillé",
        "Poisson frais grillé, frites, pâtes et salade.", "plats", "poisson", 1800, 35),
-    _p("prod_grillade_mixte", "Grillade Mixte",
-       "Assortiment de grillades, frites et salade.", "plats", "poulet", 2000, 36),
     _p("prod_paella", "Paella Fruits de Mer",
-       "Paella généreuse aux fruits de mer.", "plats", "paella", 2000, 37),
+       "Paella généreuse aux fruits de mer.", "plats", "paella", 2000, 36),
+    _p("prod_grillade_mixte", "Grillade Mixte",
+       "Assortiment de grillades (poulet, kefta, escalope), frites et salade.", "plats", "grillade", 2000, 37),
 
-    # ── Entrées & Salades ─────────────────────────────────────────
-    _p("prod_brik", "Brik à l'Œuf",
-       "Brik croustillante à l'œuf et au thon.", "entrees", "plat", 300, 40),
-    _p("prod_soupe_poisson", "Soupe de Poisson",
-       "Soupe de poisson maison.", "entrees", "plat", 600, 41),
-    _p("prod_salade_tunisienne", "Salade Tunisienne",
-       "Tomates, concombre, oignons, thon et œuf.", "entrees", "plat", 600, 42),
-    _p("prod_salade_bongout", "Salade Bon Goût",
-       "Salade composée de la maison, généreuse.", "entrees", "plat", 800, 43),
-
-    # ── Desserts ──────────────────────────────────────────────────
-    _p("prod_creme_caramel", "Crème Caramel", "Crème caramel maison.", "desserts", "plat", 500, 50),
-    _p("prod_tiramisu", "Tiramisu", "Mascarpone, café et cacao.", "desserts", "plat", 600, 51),
-    _p("prod_salade_fruits", "Salade de Fruits", "Fruits frais de saison.", "desserts", "plat", 600, 52),
+    # ── Gratins & Pâtes ───────────────────────────────────────────
+    _p("prod_gratin_pates", "Gratin de Pâtes",
+       "Pâtes gratinées au four, sauce crémeuse et fromage fondu.", "gratins", "gratin", 1100, 40),
+    _p("prod_lasagne", "Lasagne Bolognaise",
+       "Lasagnes à la bolognaise, béchamel et fromage gratiné.", "gratins", "gratin", 1300, 41),
 
     # ── Boissons ──────────────────────────────────────────────────
-    _p("prod_eau", "Eau minérale 50cl", "Bouteille d'eau minérale.", "drinks", "boga", 150, 60),
-    _p("prod_cafe", "Café Express", "Café express.", "drinks", "boga", 200, 61),
-    _p("prod_soda", "Soda 33cl", "Canette bien fraîche.", "drinks", "boga", 250, 62),
-    _p("prod_boga", "Boga Cidre 33cl", "La cidre tunisienne, bien fraîche.", "drinks", "boga", 250, 63),
-    _p("prod_jus", "Jus d'orange frais", "Orange pressée minute.", "drinks", "boga", 500, 64),
+    _p("prod_eau", "Eau minérale 50cl", "Bouteille d'eau minérale.", "drinks", "boga", 150, 50),
+    _p("prod_cafe", "Café Express", "Café express.", "drinks", "boga", 200, 51),
+    _p("prod_soda", "Soda 33cl", "Canette bien fraîche.", "drinks", "boga", 250, 52),
+    _p("prod_boga", "Boga Cidre 33cl", "La cidre tunisienne, bien fraîche.", "drinks", "boga", 250, 53),
+    _p("prod_jus", "Jus d'orange frais", "Orange pressée minute.", "drinks", "boga", 500, 54),
 ]
 
 
