@@ -1,0 +1,22 @@
+# Dependencies & build output (reinstalled/rebuilt inside the image)
+**/node_modules
+**/dist
+backend/.venv
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.mypy_cache
+.ruff_cache
+
+# Local-only / secrets (env is provided at runtime by Cloud Run)
+.env
+.env.local
+frontend/.env.local
+service-account.json
+
+# VCS / editor / docs
+.git
+.gitignore
+.idea
+.vscode
+*.md

@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design tokens ─────────────────────────────────────────────── */
+:root {
+  /* Brand constants (stable across themes) — Le Bon Goût black & red */
+  --brand-navy: #16181f;
+  --brand-gold: #d92d27;
+
+  /* Light mode — warm linen + red */
+  --bg: #fbf7f4;
+  --bg-elev: #ffffff;
+  --surface: #ffffff;
+  --surface-2: #f3ebe8;
+  --border: #e6dcd7;
+  --border-strong: #d2c2bb;
+  --text: #1f1614;
+  --text-muted: #6a5b56;
+  --text-subtle: #9a8a84;
+  --primary: #c62828;
+  --primary-fg: #ffffff;
+  --success: #1e9e73;
+  --danger: #c9442b;
+  --info: #3b6fd4;
+  --ring: #c62828;
+
+  color-scheme: light;
+}
+
+.dark {
+  /* Dark mode — near-black + neon red (signature) */
+  --bg: #0d0b0c;
+  --bg-elev: #151113;
+  --surface: #1a1517;
+  --surface-2: #241d20;
+  --border: #322a2d;
+  --border-strong: #46393d;
+  --text: #f4efec;
+  --text-muted: #b8aaa6;
+  --text-subtle: #7d6f6b;
+  --primary: #e23b32;
+  --primary-fg: #ffffff;
+  --success: #3fbf8f;
+  --danger: #e5654b;
+  --info: #5b8def;
+  --ring: #e23b32;
+
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: "Inter", system-ui, sans-serif;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: "Fraunces", Georgia, serif;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: var(--primary);
+    color: var(--primary-fg);
+  }
+
+  /* Custom scrollbar for the dark premium feel */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border-radius: 9999px;
+    border: 2px solid var(--bg);
+  }
+}
+
+@layer components {
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .skeleton {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-2);
+  }
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.06),
+      transparent
+    );
+    animation: shimmer 1.5s infinite;
+  }
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .focus-ring {
+    outline: none;
+  }
+  .focus-ring:focus-visible {
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ring);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

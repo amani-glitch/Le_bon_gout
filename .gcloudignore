@@ -1,0 +1,25 @@
+# Controls what `gcloud builds submit` uploads as the build context.
+# Keep it lean: deps are rebuilt in the Dockerfile, secrets stay local.
+
+.git
+.gitignore
+
+# Dependencies & build artefacts
+**/node_modules
+**/dist
+backend/.venv
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.mypy_cache
+.ruff_cache
+
+# Secrets — provided to Cloud Run via env vars at deploy time, never baked in
+.env
+.env.local
+frontend/.env.local
+service-account.json
+
+# Misc
+.DS_Store
+*.log
